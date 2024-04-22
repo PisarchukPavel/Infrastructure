@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="6c2a5288-3f3d-4831-b235-b9df82aa724d" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>Client</name>
+  <parameters />
+  <cleanup />
+  <buildTypesOrder order="Builds_IOS,Builds_Android,Build_UWP,Builds_Bundles,Builds_Bot" />
+</project>
+

@@ -1,0 +1,2 @@
+'Solitaire' project is selected to export. All its subprojects and dependencies are exported.
+'Solitaire Client' vcs root is exported because it's used in 'Solitaire / Android'

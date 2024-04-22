@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="31088843-3649-40f1-ba57-848407535e1c" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>Bot</name>
+  <description />
+  <settings ref="Builds_ExternalPrepare">
+    <options>
+      <option name="allowPersonalBuildTriggering" value="false" />
+      <option name="artifactRules" value="%system.BuildFolder%" />
+      <option name="maximumNumberOfBuilds" value="1" />
+      <option name="publishArtifactCondition" value="SUCCESSFUL" />
+      <option name="showDependenciesChanges" value="true" />
+    </options>
+    <parameters>
+      <param name="a0_Platform" value="Windows" spec="select data_5='WebGL' display='normal' label='Platform' data_2='iOS' data_1='Android' data_4='Windows' data_3='UWP'" />
+      <param name="a2_Pipeline" value="Bot" spec="text display='hidden' validationMode='any'" />
+      <param name="system.BuildFile" value="bot_%build.number%/" spec="text display='hidden' validationMode='any'" />
+    </parameters>
+    <build-runners />
+    <vcs-settings>
+      <vcs-entry-ref root-id="SolitaireClient" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers />
+    <cleanup />
+  </settings>
+</build-type>
+

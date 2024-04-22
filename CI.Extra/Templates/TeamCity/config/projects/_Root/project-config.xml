@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="93adc887-d5de-4020-9887-ab2aac7ac0fe" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>&lt;Root project&gt;</name>
+  <description>Contains all other projects</description>
+  <parameters>
+    <param name="a0_Platform" value="" spec="select data_5='WebGL' display='normal' label='Platform' data_2='iOS' data_1='Android' data_4='Windows' data_3='UWP'" />
+    <param name="a1_Environment" value="DEV" spec="select display='normal' label='Environment' data_2='DEV' data_1='QA' data_3='PROD'" />
+    <param name="a2_Pipeline" value="" spec="text display='hidden' validationMode='any'" />
+    <param name="a3_Version" value="1.15.3" spec="text regexp='^(0|||[1-9|]\d*)(\.(0|||[1-9|]\d*)){0,3}$' label='Application Version' validationMode='regex' display='normal' validationMessage='Enter valid data |[xx.xxx|]'" />
+    <param name="b0_AssetBucket" value="app-assets-test-stage-1" spec="select display='normal' label='Asset Bucket' data_2='app-assets-test-stage-1' data_1='app-assets-stage-1'" />
+    <param name="b1_AssetVersion" value="1.0" spec="text regexp='^(0|||[1-9|]\d*)(\.(0|||[1-9|]\d*)){0,3}$' label='Asset Version' validationMode='regex' display='normal' validationMessage='Enter valid data |[xx.xxx|]'" />
+    <param name="system.BuildFile" value="" spec="text display='hidden' validationMode='any'" />
+    <param name="system.BuildFolder" value="%system.Root%/builds" spec="text validationMode='any' display='hidden'" />
+    <param name="system.BuildPath" value="%system.BuildFolder%/%system.BuildFile%" spec="text validationMode='any' display='hidden'" />
+    <param name="system.BundleProfile" value="https://storage.googleapis.com/%b0_AssetBucket%:%b1_AssetVersion%" spec="text validationMode='any' display='hidden'" />
+    <param name="system.ExtraParameters" value="" spec="text display='hidden' validationMode='any'" />
+    <param name="system.OS" value="DEPEND_ON_BUIDAGENT_PLATFORM_CHANED_VIA_PREPARE_SCRIPT" spec="select display='hidden' data_2='Windows' data_1='MacOS'" />
+    <param name="system.Root" value="%system.teamcity.build.workingDir%" spec="text display='hidden' validationMode='any'" />
+    <param name="system.UnityParameters" value="-projectDir %system.teamcity.build.workingDir% -buildPath %system.BuildPath% -buildAssembly %a2_Pipeline% -buildPlatform %a0_Platform% -buildEnvironment %a1_Environment% -buildVersion %a3_Version% -buildNumber %build.counter% -adb2 -enableCacheServer -cacheServerEndpoint 172.20.15.37:80 -cacheServerEnableDownload true -cacheServerEnableUpload true -bundleProfile %system.BundleProfile% %system.ExtraParameters% %z0_ExtraParameters%" spec="text validationMode='any' display='hidden'" />
+    <param name="system.UnityPath" value="DEPEND_ON_BUIDAGENT_PLATFORM_CHANED_VIA_PREPARE_SCRIPT" spec="text display='hidden' validationMode='any'" />
+    <param name="system.UnityPreprocess" value="&quot;%system.UnityPath%&quot; -batchmode -projectPath ./ -nographics -silent-crashes -executeMethod CI.Editor.Builder.Build -buildAssembly Prepare %system.UnityParameters% -quit -logFile" spec="text validationMode='any' display='hidden'" />
+    <param name="system.UnityProcess" value="&quot;%system.UnityPath%&quot; -batchmode -projectPath ./ -nographics -silent-crashes -executeMethod CI.Editor.Builder.Build %system.UnityParameters% -quit -logFile" spec="text validationMode='any' display='hidden'" />
+    <param name="system.UnityVersion" value="2022.3.12f1" spec="select label='Unity Version' data_2='2020.3.42f1' data_1='2022.3.12f1' display='hidden'" />
+    <param name="z0_ExtraParameters" value="" spec="text display='normal' label='Extra Parameters' validationMode='any'" />
+  </parameters>
+  <project-extensions>
+    <extension id="PROJECT_EXT_1" type="ReportTab">
+      <parameters>
+        <param name="startPage" value="coverage.zip!index.html" />
+        <param name="title" value="Code Coverage" />
+        <param name="type" value="BuildReportTab" />
+      </parameters>
+    </extension>
+  </project-extensions>
+  <cleanup>
+    <policy type="days" cleanup-level="EVERYTHING">
+      <parameters>
+        <param name="keepDays.count" value="30" />
+      </parameters>
+    </policy>
+    <policy type="days" cleanup-level="ARTIFACTS">
+      <parameters>
+        <param name="keepDays.count" value="5" />
+      </parameters>
+    </policy>
+    <options>
+      <option name="preventDependenciesArtifactsFromCleanup" value="false" />
+    </options>
+  </cleanup>
+</project>
+

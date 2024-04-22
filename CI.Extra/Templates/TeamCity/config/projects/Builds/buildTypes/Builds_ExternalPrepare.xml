@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="591ff05c-58ae-44bb-b233-85ad85011894" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>Basic</name>
+  <settings>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_18" name="ENVIRONMENT: Prepare" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_noprofile" value="true" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[$UnityVersion = '%system.UnityVersion%'
+$UnityPathOriginal = '%system.UnityPath%'
+$UnityPathSpecific = 'EMPTY'
+$OS = 'NONE'
+
+$Windows = -not (Test-Path variable:IsWindows) -or $IsWindows
+if ($Windows) 
+{
+	$OS = 'Windows'
+	$UnityPathSpecific = 'C:/Program Files/Unity/Hub/Editor/{0}/Editor/Unity.exe' -f $UnityVersion
+}
+else
+{
+	$OS = 'MacOS'
+	$UnityPathSpecific = '/Applications/Unity/Hub/Editor/{0}/Unity.app/Contents/MacOS/Unity' -f $UnityVersion
+}
+
+
+
+$Root = '%system.Root%'.Replace('\','/')
+$BuildPath = '%system.BuildPath%'.Replace('\','/')
+$UnityPreprocess = '%system.UnityPreprocess%'.Replace('\','/').Replace($UnityPathOriginal, $UnityPathSpecific)
+$UnityProcess = '%system.UnityProcess%'.Replace('\','/').Replace($UnityPathOriginal, $UnityPathSpecific)
+
+Write-Host "##teamcity[setParameter name='system.Root' value='$Root']"
+Write-Host "##teamcity[setParameter name='system.OS' value='$OS']"
+Write-Host "##teamcity[setParameter name='system.BuildPath' value='$BuildPath']"
+Write-Host "##teamcity[setParameter name='system.UnityPreprocess' value='$UnityPreprocess']"
+Write-Host "##teamcity[setParameter name='system.UnityProcess' value='$UnityProcess']"
+
+
+
+$FolderName = "%system.BuildFolder%"
+if (Test-Path $FolderName) {
+ 
+	Remove-Item -path $FolderName -Recurse -Force -EA SilentlyContinue -Verbose
+}]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_19" name="UNITY: Prepare" type="simpleRunner">
+        <parameters>
+          <param name="script.content" value="%system.UnityPreprocess%" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_20" name="UNITY: Build" type="simpleRunner">
+        <parameters>
+          <param name="script.content" value="%system.UnityProcess%" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings />
+    <requirements />
+    <build-triggers />
+    <cleanup />
+  </settings>
+</template>
+

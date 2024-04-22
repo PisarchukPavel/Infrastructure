@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="9c2204dc-b0ce-46ae-9181-9e9b8162f7ac" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>Android</name>
+  <description />
+  <settings ref="Builds_ExternalPrepare">
+    <options>
+      <option name="artifactRules" value="%system.BuildFolder% =&gt; build.zip" />
+      <option name="publishArtifactCondition" value="SUCCESSFUL" />
+    </options>
+    <parameters>
+      <param name="a0_Platform" value="Android" spec="select data_5='WebGL' display='normal' label='Platform' data_2='iOS' data_1='Android' data_4='Windows' data_3='UWP'" />
+      <param name="a2_Pipeline" value="Android" spec="text display='hidden' validationMode='any'" />
+      <param name="b1_AssetVersion" value="1.9" spec="text regexp='^(0|||[1-9|]\d*)(\.(0|||[1-9|]\d*)){0,3}$' label='Asset Version' validationMode='regex' display='normal' validationMessage='Enter valid data |[xx.xxx|]'" />
+      <param name="system.BuildFile" value="solitaire_%a3_Version%.%build.number%" spec="text display='hidden' validationMode='any'" />
+    </parameters>
+    <build-runners />
+    <vcs-settings>
+      <vcs-entry-ref root-id="SolitaireClient" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers />
+    <cleanup />
+  </settings>
+</build-type>
+
